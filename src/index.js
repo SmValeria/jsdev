@@ -19,7 +19,7 @@
 function isAllTrue(array, fn) {
     let result = true;
 
-    if (!array.length || !Array.isArray(array)) {
+    if (!array.length || !(array instanceof Array)) {
         throw new Error('empty array');
     }
 
@@ -56,7 +56,7 @@ function isAllTrue(array, fn) {
 function isSomeTrue(array, fn) {
     let result = false;
 
-    if (!array.length || !Array.isArray(array)) {
+    if (!array.length || !(array instanceof Array)) {
         throw new Error('empty array');
     }
 
@@ -126,41 +126,40 @@ function calculator(number = 0) {
         throw new Error('number is not a number')
     }
 
+    function calcOp(op, fn, ...args) {
+
+        for (let i = 0; i < args.length; i++) {
+            if (op === 'div' && args[i] === 0) {
+                throw new Error('division by 0');
+            }
+            fn(args[i]);
+        }
+        
+        return result;
+    }
+    
     return {
         sum: function (...args) {
-
-            for (let i = 0; i < args.length; i++) {
-                result += args[i];
-            }
-            
-            return result;
+            return calcOp('sum', (i) => {
+                result += i
+            }, ...args);
         },
         dif: function (...args) {
-
-            for (let i = 0; i < args.length; i++) {
-                result -= args[i];
-            }
-            
-            return result;
+            return calcOp('dif', (i) => {
+                result -= i 
+            }, ...args);
         },
         div: function (...args) {
 
-            for (let i = 0; i < args.length; i++) {
-                if (args[i] === 0) {
-                    throw new Error('division by 0');
-                }
-                result /= args[i];
-            }
-            
-            return result;
+            return calcOp('div', (i) => {
+                result /= i 
+            }, ...args);
         },
         mul: function (...args) {
 
-            for (let i = 0; i < args.length; i++) {
-                result *= args[i];
-            }
-            
-            return result;
+            return calcOp('mul', (i) => {
+                result *= i 
+            }, ...args);
         }
     }
 }
