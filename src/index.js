@@ -34,7 +34,6 @@ function isAllTrue(array, fn) {
     }
     
     return result;
-
 }
 
 /*
@@ -127,7 +126,6 @@ function calculator(number = 0) {
     }
 
     function calcOp(op, fn, ...args) {
-
         for (let i = 0; i < args.length; i++) {
             if (op === 'div' && args[i] === 0) {
                 throw new Error('division by 0');
