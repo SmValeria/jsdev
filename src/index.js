@@ -96,7 +96,6 @@ function slice(array, from, to) {
             from = 0;
         }
     }
-
     if (to < 0) {
         to = array.length + to;
     }
@@ -120,13 +119,12 @@ function createProxy(obj) {
     return new Proxy(obj, {
         set(target, prop, val) {
             if (typeof val === 'number') {
-                target[prop] = val*val;
+                target[prop] = val ** 2;
 
                 return true;
             }
 
             return false;
-
         }
     })
 }
