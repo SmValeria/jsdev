@@ -11,6 +11,11 @@
    createDivWithText('loftschool') // создаст элемент div, поместит в него 'loftschool' и вернет созданный элемент
  */
 function createDivWithText(text) {
+    let div = document.createElement('div');
+
+    div.textContent = text;
+
+    return div;
 }
 
 /*
@@ -22,6 +27,7 @@ function createDivWithText(text) {
    prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым аргументом в начало элемента переданного вторым аргументом
  */
 function prepend(what, where) {
+    where.prepend(what);
 }
 
 /*
@@ -44,6 +50,15 @@ function prepend(what, where) {
    findAllPSiblings(document.body) // функция должна вернуть массив с элементами div и span т.к. следующим соседом этих элементов является элемент с тегом P
  */
 function findAllPSiblings(where) {
+    let pSiblingsArray = [];
+
+    for (const item of where.children) {
+        if (item.nextElementSibling && item.nextElementSibling.tagName.toLocaleLowerCase() === 'p') {
+            pSiblingsArray.push(item);
+        }
+    }
+
+    return pSiblingsArray;
 }
 
 /*
@@ -64,9 +79,9 @@ function findAllPSiblings(where) {
    findError(document.body) // функция должна вернуть массив с элементами 'привет' и 'loftschool'
  */
 function findError(where) {
-    var result = [];
+    let result = [];
 
-    for (var child of where.childNodes) {
+    for (const child of where.children) {
         result.push(child.innerText);
     }
 
@@ -86,6 +101,11 @@ function findError(where) {
    должно быть преобразовано в <div></div><p></p>
  */
 function deleteTextNodes(where) {
+    for (const element of where.childNodes) {
+        if (element.nodeType === 3) {
+            where.removeChild(element);
+        }
+    }
 }
 
 /*
@@ -100,6 +120,16 @@ function deleteTextNodes(where) {
    должно быть преобразовано в <span><div><b></b></div><p></p></span>
  */
 function deleteTextNodesRecursive(where) {
+    for (let i = 0; i < where.childNodes.length; i++) {
+        const element = where.childNodes[i];
+
+        if (element.nodeType === 3) {
+            where.removeChild(element);
+            i--;
+        } else {
+            deleteTextNodesRecursive(element);
+        }
+    }
 }
 
 /*
@@ -123,6 +153,42 @@ function deleteTextNodesRecursive(where) {
    }
  */
 function collectDOMStat(root) {
+    let statistics = {
+        tags: {},
+        classes: {},
+        texts: 0
+    };
+
+    function createDataStatistics(container) {
+        for (const element of container.childNodes) {
+            if (element.nodeType === 3) {
+                statistics.texts++;
+            }
+            if (element.nodeType === 1) {
+                let tagName = element.tagName;
+
+                if (!statistics.tags.hasOwnProperty(tagName)) {
+                    statistics.tags[tagName] = 1;
+                } else {
+                    statistics.tags[tagName]++
+                }
+                if (element.classList.length !== 0) {
+                    for (const classEl of element.classList) {
+                        if (!statistics.classes.hasOwnProperty(classEl)) {
+                            statistics.classes[classEl] = 1;
+                        } else {
+                            statistics.classes[classEl]++
+                        }
+                    }
+                }
+            }
+            createDataStatistics(element);
+        }
+    }
+
+    createDataStatistics(root);
+    
+    return statistics;
 }
 
 /*
@@ -158,6 +224,28 @@ function collectDOMStat(root) {
    }
  */
 function observeChildNodes(where, fn) {
+    let observer = new MutationObserver(mutationRecords => {
+        mutationRecords.forEach((mutation)=> {
+            if (mutation.addedNodes.length) {
+                fn({
+                    type: 'insert',
+                    nodes: [...mutation.addedNodes]
+                })
+            } else if (mutation.removedNodes.length) {
+                fn({
+                    type: 'remove',
+                    nodes: [...mutation.removedNodes]
+                })
+            }
+
+        });
+    });
+
+    observer.observe(where, {
+        childList: true,
+        subtree: true,
+    });
+
 }
 
 export {
