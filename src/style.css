@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+}
+
+#homework-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.draggable-div {
+    position: absolute;
+}
