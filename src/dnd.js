@@ -1,3 +1,4 @@
+import './style.css';
 /* Задание со звездочкой */
 
 /*
@@ -17,10 +18,6 @@
  */
 const homeworkContainer = document.querySelector('#homework-container');
 
-homeworkContainer.style.width = '100vw';
-homeworkContainer.style.height = '100vh';
-document.body.style.margin = '0';
-
 /*
  Функция должна создавать и возвращать новый div с классом draggable-div и случайными размерами/цветом/позицией
  Функция должна только создавать элемент и задвать ему случайные размер/позицию/цвет
@@ -34,23 +31,19 @@ function createDiv() {
     const div = document.createElement('div');
 
     div.classList.add('draggable-div');
-    const divWidth = Math.floor(Math.random() * 100 + 30);
-    const divHeight = Math.floor(Math.random() * 100 + 30);
-    const divPosX = Math.floor(Math.random() * (document.documentElement.clientWidth - divWidth));
-    const divPosY = Math.floor(Math.random() * (document.documentElement.clientHeight - divHeight));
+    const divWidth = generateRandomNumberInRange(100, 30);
+    const divHeight = generateRandomNumberInRange(100, 30);
+    const divPosX = generateRandomNumberInRange(document.documentElement.clientWidth - divWidth);
+    const divPosY = generateRandomNumberInRange(document.documentElement.clientHeight - divHeight);
 
-    let divColor = Math.round(0xffffff * Math.random()).toString(16);
-
-    if (divColor.length === 5) {
-        divColor += '0';
-    }
-
-    div.style.backgroundColor = '#' + divColor;
+    div.style.backgroundColor = `rgb(
+                                ${generateRandomNumberInRange(255)}, 
+                                ${generateRandomNumberInRange(255)}, 
+                                ${generateRandomNumberInRange(255)})`;
     div.style.width = divWidth + 'px';
     div.style.height = divHeight + 'px';
     div.style.left = divPosX + 'px';
     div.style.top = divPosY + 'px';
-    div.style.position = 'absolute';
     div.setAttribute('draggable', 'true');
 
     return div
@@ -97,10 +90,12 @@ homeworkContainer.addEventListener('dragstart', function (event) {
     event.dataTransfer.setData('text', '');
     event.dataTransfer.dropEffect = 'move';
 });
+
 homeworkContainer.addEventListener('dragover', function (event) {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
 });
+
 homeworkContainer.addEventListener('drop', function (event) {
     event.preventDefault();
     dragElem.elem.style.left = event.clientX - dragElem.shiftX + 'px';
@@ -110,6 +105,10 @@ homeworkContainer.addEventListener('drop', function (event) {
 homeworkContainer.addEventListener('dragend', function () {
     dragElem = null;
 });
+
+function generateRandomNumberInRange(max, min = 0) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export {
     createDiv
