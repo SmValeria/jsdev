@@ -55,11 +55,7 @@ addButton.addEventListener('click', () => {
     }
 
     document.cookie = `${addNameInput.value}=${addValueInput.value}`;
-
     renderCookies(getCookies());
-
-    addNameInput.value = '';
-    addValueInput.value = '';
 });
 
 document.addEventListener('keypress', (event) => {
@@ -69,7 +65,6 @@ document.addEventListener('keypress', (event) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-
     renderCookies(getCookies());
 });
 
@@ -80,7 +75,7 @@ document.addEventListener('click', (event) => {
 
         document.cookie = `${cookieName}=; max-age=0;`;
 
-        renderCookies(getCookies());
+        listTable.removeChild(cookieRow);
     }
 });
 
@@ -90,7 +85,7 @@ function renderCookies(cookies) {
     let list = new DocumentFragment();
 
     for (const cookie in cookies) {
-        if (cookies.hasOwnProperty(cookie)) {
+        if (cookie) {
             list.appendChild(createCookieItem(cookie, cookies))
         }
     }
