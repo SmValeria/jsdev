@@ -1,0 +1,60 @@
+<div class="review">
+  <header class="review__header">
+    <div class="review__container--header container">
+      <div class="review__address">
+        <i class="fas fa-map-marker-alt review__icon review__icon--pin">
+        </i> {{address}}
+      </div>
+      <button type="button" class="review__close">
+        <i class="fas fa-times review__icon review__icon--close"></i>
+      </button>
+    </div>
+  </header>
+  <div class="review__body container">
+    <ul class="review__list">
+      Отзывов пока нет...
+    </ul>
+    <form method="#" action ="#" class="review__form form">
+      <fieldset class="form__group">
+        <legend class="form__title">Ваш отзыв</legend>
+
+        <ul role="none" class="form__list">
+          <li class="form__item">
+            <label class="form__item-title">
+              <input type="text"
+                     name="name"
+                     placeholder="Ваше имя"
+                     class="form__input"
+                     required>
+              <span class="form__error"></span>
+            </label>
+
+          </li>
+          <li class="form__item">
+            <label class="form__item-title">
+              <input type="text"
+                     name="place"
+                     placeholder="Укажите место"
+                     class="form__input"
+                     required>
+              <span class="form__error"></span>
+            </label>
+          </li>
+          <li class="form__item">
+            <label class="form__item-title">
+              <textarea name="comment"
+                        placeholder="Поделитесь впечатлениями"
+                        rows="5"
+                        class="form__input form__input--textarea"
+                        required></textarea>
+              <span class="form__error"></span>
+            </label>
+          </li>
+        </ul>
+      </fieldset>
+      <div class="form__actions">
+        <button type="submit" class="form__btn">Добавить</button>
+      </div>
+    </form>
+  </div>
+</div>
