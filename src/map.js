@@ -111,8 +111,7 @@ export class Map {
       event.preventDefault();
 
       const object = event.get('target');
-
-      this.currentPoint.coords = this.object.geometry.getCoordinates();
+      this.currentPoint.coords = object.geometry.getCoordinates();
       const position = event.get('position');
 
       this.findAllReviewsAndSetCurrentAddress();
