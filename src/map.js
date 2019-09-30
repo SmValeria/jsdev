@@ -16,7 +16,7 @@ export class Map {
       comment: {},
       coords: ''
     };
-
+    this.activeMark = '';
     this.wrapper = document.querySelector('.wrapper');
     this.reviewBlock = document.querySelector('#review-block');
 
@@ -62,7 +62,9 @@ export class Map {
       clusterBalloonPanelMaxMapArea: 0,
       clusterBalloonContentLayoutWidth: 300,
       clusterBalloonContentLayoutHeight: 200,
-      clusterBalloonPagerSize: 5
+      clusterBalloonPagerSize: 5,
+      clusterHideIconOnBalloonOpen: false,
+      geoObjectHideIconOnBalloonOpen: false
     });
   }
 
@@ -77,6 +79,11 @@ export class Map {
       this.closeReviewBlock();
     }
 
+    if (event.target && event.target.closest('.error__close')) {
+      let errorContainer = event.target.closest('.error');
+      errorContainer.classList.add('hidden');
+    }
+
     if (event.target && event.target.closest('.form__btn')) {
       event.preventDefault();
       const form = this.reviewBlock.querySelector('.form');
@@ -84,7 +91,8 @@ export class Map {
         this.currentPoint.comment = {...this.getReviewData(form)};
         clearForm(form);
         this.renderReview(this.currentPoint.comment);
-        this.createPlaceMark(this.currentPoint);
+        this.activeMark = this.createPlaceMark(this.currentPoint);
+        this.activeMark.options.set({ iconImageHref: 'img/pin--orange.png'});
         const newPoint = {...this.currentPoint};
         this.points.push(newPoint);
         localStorage.setItem('points', JSON.stringify(this.points));
@@ -104,14 +112,19 @@ export class Map {
   }
 
   placeMarkClick(event) {
-    if (!event.get('target')._clusterListeners) {
+    const point = event.get('target');
+    const type = point.properties.get('type');
+
+    if (type === 'point') {
+
       if (this.map.balloon.isOpen()) {
         this.map.balloon.close();
       }
       event.preventDefault();
 
-      const object = event.get('target');
-      this.currentPoint.coords = object.geometry.getCoordinates();
+      this.activeMark = point;
+      this.activeMark.options.set({ iconImageHref: 'img/pin--orange.png'});
+      this.currentPoint.coords = this.activeMark.geometry.getCoordinates();
       const position = event.get('position');
 
       this.findAllReviewsAndSetCurrentAddress();
@@ -161,8 +174,9 @@ export class Map {
       this.currentPoint.address = await this.getAddressString(this.currentPoint.coords);
 
       this.openReviewBlock(position);
-    } catch (e) {
-      console.log('упсс......что-то пошло не так')
+    } catch (error) {
+      let errorContainer = this.wrapper.querySelector('.error');
+      errorContainer.classList.remove('hidden');
     }
   }
 
@@ -229,12 +243,16 @@ export class Map {
                                         </a>
                                     </div>
                                     <div class='cluster__comment'>${point.comment.text}</div>`,
-      balloonContentFooter: `<div>${point.comment.time.full}</div>`
+      balloonContentFooter: `<div>${point.comment.time.full}</div>`,
+      type: 'point',
     }, {
       iconLayout: 'default#image',
+      iconImageHref: 'img/pin.png',
+      iconImageSize: [22, 33],
     });
-
     this.clusterer.add(placeMark);
+
+    return placeMark;
   }
 
   initPlaceMarks() {
@@ -250,6 +268,10 @@ export class Map {
     this.reviewBlock.innerHTML = '';
     this.reviewBlock.classList.remove('active');
     this.currentPoint = {};
+    if(this.activeMark.options !== undefined) {
+      this.activeMark.options.set({ iconImageHref: 'img/pin.png'});
+      this.activeMark = '';
+    }
   }
 
   openReviewBlock(position) {
