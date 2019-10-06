@@ -1,0 +1,23 @@
+<li class="messages__item {{#if owner}} messages__item--owner {{/if}}"
+    data-nick={{nick}}>
+  <div class="messages__author-appearance">
+    {{#if photo}}
+      <img src="{{photo}}"
+           alt="{{name}}"
+           data-photo="{{nick}}"
+           class="messages__author-img">
+    {{else}}
+      <img src=""
+           alt="{{name}}"
+           data-photo="{{nick}}"
+           class="messages__author-img none">
+    {{/if}}
+  </div>
+  <ul class="messages__list">
+      {{#each messageInfoArr}}
+        <li class="messages__content">{{message}}
+          <time class="messages__time">{{time}}</time>
+        </li>
+      {{/each}}
+  </ul>
+</li>

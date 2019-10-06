@@ -1,0 +1,22 @@
+<li class="members__item" data-nick={{nick}}>
+  <label class="members__appearance" data-label={{nick}}>
+      {{#if photo}}
+        <img src="{{photo}}"
+             alt="{{name}}"
+             data-photo="{{nick}}"
+             class="members__img">
+      {{else}}
+        <img src=""
+             alt="{{name}}"
+             data-photo="{{nick}}"
+             class="members__img none">
+      {{/if}}
+    <input type="file" id="photo" name="photo" data-label={{nick}} class="visuallyhidden">
+  </label>
+  <div class="members__info">
+    <div class="members__name">{{name}}</div>
+    <div class="members__message">
+        {{lastMessage}}
+    </div>
+  </div>
+</li>

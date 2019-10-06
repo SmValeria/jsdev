@@ -1,0 +1,259 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul li{
+    list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-size: inherit;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+svg {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+address {
+    font-style: normal;
+}
+
+
+
+/* Typography */
+a {
+    color: inherit;
+    cursor: pointer;
+    display: inline-flex;
+}
+
+a,
+a:hover,
+a:visited,
+a:active {
+    text-decoration: none;
+}
+
+a,
+input[type="submit"],
+input[type="button"],
+button{
+    transition: .3s ease-in;
+}
+
+input[type="submit"],
+input[type="button"],
+button {
+    display: inline-block;
+    border: transparent;
+    background: transparent;
+    cursor: pointer;
+    color: inherit;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button:hover,
+button:hover{
+
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+textarea,
+select {
+    transition: .3s ease-in;
+    border: transparent;
+}
+
+button:active, button:focus,
+input:active, input:focus {
+    border: transparent;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: transparent;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+textarea:focus,
+select:focus {
+
+}
+
+textarea {
+    resize: none;
+}
+
+/* Deleting arrows input[type=number] */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
+/*Changing color of placeholders*/
+::-webkit-input-placeholder {color: #6d7883;}
+::-moz-placeholder          {color: #6d7883;}/* Firefox 19+ */
+:-moz-placeholder           {color: #6d7883;}/* Firefox 18- */
+:-ms-input-placeholder      {color: #6d7883;}
+
+
+
+/* Text align */
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+/* Floats */
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-none {
+    float: none;
+}
+
+/* Clearfix */
+
+.cf:before, .cf:after {
+    content: " ";
+    display: block;
+}
+
+.cf:after {
+    clear: both;
+}
+
+
+/* Vertical align */
+
+.vertical-align:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+[class*="vertical-align-"] {
+    display: inline-block;
+}
+
+.vertical-align-top {
+    vertical-align: top;
+}
+
+.vertical-align-middle {
+    vertical-align: middle;
+}
+
+.vertical-align-bottom {
+    vertical-align: bottom;
+}
+
+
+/* Absolute centering */
+
+.relative {
+    position: relative;
+}
+
+.absolute-center {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+
+.circle {
+    border-radius: 50%;
+}
+
+
+.hidden {
+    display: none;
+}
+
+.visuallyhidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
